@@ -1,0 +1,8 @@
+<div class="container">
+    <form class="form-horizontal">
+      <label>Name:</label>
+      <input type="text" placeholder="Name of the Movie" [(ngModel)]= mname [ngModelOptions]="{standalone: true}">
+      <button (click) = "ApiByName()">Find</button><br>
+      <h6 [hidden] = "hide"> {{ errorMSG }} </h6>
+    </form>
+  </div>

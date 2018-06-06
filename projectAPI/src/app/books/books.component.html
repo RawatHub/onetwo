@@ -1,0 +1,25 @@
+<div class="container">
+  <form class="form-horizontal">
+    <label>Name:</label>
+    <input type="text" placeholder="Name of the book" [(ngModel)] = bname [ngModelOptions]="{standalone: true}">
+    <button (click) = "ApiByName()">Find</button><br>
+     OR <br> 
+    <label>ISBN:</label>
+    <input type="number" placeholder="ISBN Number" [(ngModel)] = isbn [ngModelOptions]="{standalone: true}">
+    <button (click) = "ApiByIsbn()">Find</button><br>
+    <h6 [hidden] = "hide"> {{ errorMSG }} </h6>
+  </form>
+</div>
+
+<!-- <div class="container">
+  <table>
+    <tr>
+      <th>sth</th>
+    </tr>
+    <tr *ngFor = "let d of data">
+      <td>
+          {{ d.items }}
+      </td>
+    </tr>
+  </table>
+</div> -->

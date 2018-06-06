@@ -1,0 +1,20 @@
+<div #rez class="container" [hidden] = "hideB">
+  <div class="img">
+    <img [src]="BookDetails.bimgURL" alt="Cover Not Available">
+  </div>
+  <div class="details">
+    <h1>{{BookDetails.btitle }} ({{BookDetails.year}})</h1>
+    <br>
+    <h4>ISBN: {{ BookDetails.isbn }}</h4>
+    <br> 
+    <h5>Author: {{ BookDetails.authors }}</h5>
+    <br>
+    <h6>Language: {{ BookDetails.lang }}</h6>
+    <h6>Rating: {{ BookDetails.avgRating }}</h6>
+    <br>
+    <p><strong>Description:</strong><br>{{ BookDetails.description }}</p>
+    <h4 style="margin-right: 10px;"><b><a [href]="BookDetails.preview">Click to Preview.</a></b></h4>
+    <h4 [hidden] = "isPDF"><b><a [href]="BookDetails.pdf">Download PDF</a></b></h4>
+  </div>
+  <h4><b><a href="multirez">Back to Search Results</a></b></h4>
+</div>

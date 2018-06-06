@@ -1,0 +1,33 @@
+.container{
+    border: 5px solid black;
+    height: max-content;
+    width: 800px;
+    margin-top: 50px;
+    background: yellowgreen;
+    margin-block-end: 25px;
+}
+
+.img{
+    border: 3px solid black;
+    width: max-content;
+    height: max-content;
+    margin-top: 25px;
+    margin-right: 25px;
+    float: right;
+    text-align: center
+}
+
+img{
+    margin: auto;
+    height: 350px;
+    width: 250px;
+}
+
+.details{
+    margin-top: 25px;
+    margin-left: 15px;
+}
+
+p{
+    font-size: 20px;
+}

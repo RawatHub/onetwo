@@ -1,0 +1,19 @@
+<div class="container" [hidden] = "hideM">
+    <div class="img">
+      <img [src]="MovieArray.mimgURL" alt="Poster Not Available">
+    </div>
+    <div class="details">
+      <h1>{{ MovieArray.mtitle }} ({{ MovieArray.year }})</h1>
+      <br>
+      <h4>Actors: {{ MovieArray.actors }}</h4>
+      <br>
+      <h5>Director(s): {{ MovieArray.director }}</h5><br>
+      <h5>Box Office Earnings: {{ MovieArray.boxOffice }}</h5>
+      <h5>Rotten Tomatoes: {{ MovieArray.rating }}</h5>
+      <br>
+      <h6>Language: {{ MovieArray.lang }}</h6>
+      <p><strong>Plot:</strong><br>
+        {{ MovieArray.plot }} 
+      </p>
+    </div>
+  </div>
