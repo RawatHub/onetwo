@@ -3,17 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var bodyParser = require('body-parser');
-var parseXML = require('xml2js').parseString;
 
 var app = express();
 
 var db = require('./db');
 
-var UserController = require('./user/UserController'); 
-
+var UserController = require('./user/userController');
 app.use('/users', UserController);
 
 // view engine setup
