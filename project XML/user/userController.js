@@ -8,8 +8,9 @@ var User = require('./user');
 var SalesEntity = require('./salesEntity');
 var fs = require('fs');
 var parseXML = require('xml2js').parseString;
-var xml = require('express-xml-bodyparser');
-// app.use(xml());
+//var xml = require('express-xml-bodyparser');
+var multer = require('multer');
+var upload = multer({ dest: '/uploads/' })
 
 var dataObj;
 fs.readFile('../sth.xml', function (err, data) {
@@ -22,60 +23,65 @@ fs.readFile('../sth.xml', function (err, data) {
 });
 
 // Insert new User
-router.post('/', xml({ trim: false, explicitArray: false }), function (req, res, next) {
+router.post('/', upload.single('salesEntity'), function (req, res) {
 
-    var obj1 = req.body.body.importdata.requestdata.tallymessage[0].voucher;
-    var obj2 = req.body.body.importdata.requestdata.tallymessage[1];
+    //console.log(req.file);
+    fs.readFile(req.file.path, function (err, data) {
+        parseXML(data, function (err, result) {
+            //console.log(result);
+            var obj1 = result.BODY.IMPORTDATA[0].REQUESTDATA[0].TALLYMESSAGE[0].VOUCHER[0];
+            var obj2 = result.BODY.IMPORTDATA[0].REQUESTDATA[0].TALLYMESSAGE[1].COMPANY[0].REMOTECMPINFO_LIST[0];
+            //console.log(obj2,"---------------------------------------", "\n");
+            
+            //var obj1 = result.body.importdata.requestdata.tallymessage[0].voucher;
+            //var obj2 = result.body.importdata.requestdata.tallymessage[1].company.remotecmpinfo_list;
+            var i = 0, j = 0;
+            var ie = [], le = [];
 
-    SalesEntity.create({
-        companyId: obj2.company.remotecmpinfo_list.name,
-        voucherType: obj1.vouchertypename,
-        voucherNumber: obj1.vouchernumber,
-        voucherDate: obj1.date,
-        deliverAt: obj1.palceofsupply,
-        truckNumber: obj1.basicshippedby,
-        buyerDetails: {
-            buyerName: obj1.basicbuyername,
-            buyerAddress: obj1.basicbuyeraddress_list.basicbuyeraddress,
-            buyerState: obj1.placeofsupply,
-            buyerPinCode: null,
-            buyerPhone: null,
-            buyerMobile: null
-        },
-        inventoryEntries: [{
-            productName: obj1.allinventoryentries_list[0].stockitemname,
-            quantity: obj1.allinventoryentries_list[0].actualqty,
-            unit: null,
-            rate: obj1.allinventoryentries_list[0].rate,
-            discount: obj1.allinventoryentries_list[0].discount,
-            amount: obj1.allinventoryentries_list[0].amount
-        },
-        {
-            productName: obj1.allinventoryentries_list[1].stockitemname,
-            quantity: obj1.allinventoryentries_list[1].actualqty,
-            unit: null,
-            rate: obj1.allinventoryentries_list[1].rate,
-            discount: obj1.allinventoryentries_list[1].discount,
-            amount: obj1.allinventoryentries_list[1].amount
-        }],
-        ledgerEntries: [{
-            ledgerName: obj1.ledgerentries_list[0].ledgername,
-            isPartyLedger: obj1.ledgerentries_list[0].ispartyledger == "Yes" ? true : false,
-            amount: obj1.ledgerentries_list[0].amount
-        },{
-            ledgerName: obj1.ledgerentries_list[1].ledgername,
-            isPartyLedger: obj1.ledgerentries_list[1].ispartyledger == "Yes" ? true : false,
-            amount: obj1.ledgerentries_list[1].amount
-        }]
-    },
-        function (err, user) {
-            if (err) {
-                console.log("Errors: ", err);
-                return res.status(500).send("There was a problem adding the information to the database.");
+            while (!(obj1.ALLINVENTORYENTRIES_LIST[i] === undefined)) {
+                ie.push({
+                    productName: obj1.ALLINVENTORYENTRIES_LIST[i].STOCKITEMNAME[0],
+                    quantity: obj1.ALLINVENTORYENTRIES_LIST[i].ACTUALQTY[0],
+                    unit: null,
+                    rate: obj1.ALLINVENTORYENTRIES_LIST[i].RATE[0],
+                    discount: obj1.ALLINVENTORYENTRIES_LIST[i].DISCOUNT[0],
+                    amount: obj1.ALLINVENTORYENTRIES_LIST[i].AMOUNT[0]
+                });
+                i++;
             }
-            console.log(user);
-            res.status(200).send(user);
-        });
+            while (!(obj1.LEDGERENTRIES_LIST[j] === undefined)) {
+                le.push({
+                    ledgerName: obj1.LEDGERENTRIES_LIST[j].LEDGERNAME[0],
+                    isPartyLedger: (obj1.LEDGERENTRIES_LIST[j].ISPARTYLEDGER[0] === 'No' ? false : true),
+                    amount: obj1.LEDGERENTRIES_LIST[j].AMOUNT[0]
+                });
+                j++;
+            }
+
+            SalesEntity.create({
+                companyId: obj2.NAME[0],
+                voucherType: obj1.VOUCHERTYPENAME[0],
+                voucherNumber: obj1.VOUCHERNUMBER[0],
+                voucherDate: obj1.DATE[0],
+                deliverAt: obj1.PLACEOFSUPPLY[0],
+                truckNumber: obj1.BASICSHIPPEDBY[0],
+                buyerDetails: {
+                    buyerName: obj1.BASICBUYERNAME[0],
+                    buyerAddress: obj1.BASICBUYERADDRESS_LIST[0].BASICBUYERADDRESS,
+                    buyerState: obj1.STATENAME[0],
+                    buyerPinCode: null,
+                    buyerPhone: null,
+                    buyerMobile: null
+                },
+                inventoryEntries: ie,
+                ledgerEntries: le
+            },
+                function (err, entity) {
+                    if (err) return res.status(500).send(err);
+                    res.status(200).send(entity);
+                });
+        }); // parseXML
+    }); // readFile
 });
 
 // Return all Users
