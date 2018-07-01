@@ -13,7 +13,8 @@ export class OrganizationProfileComponent implements OnInit {
   ngOnInit() {
   }
 
-  orgID: String = "";
+  mongoID: String = "";
+  organizationID: String = "";
   organization: String = "";
   email: String = "";
   address: String = "";
@@ -24,6 +25,7 @@ export class OrganizationProfileComponent implements OnInit {
 
   organizationObjectGenerator() {
     var org = {
+      organizationID: this.organizationID,
       name: this.organization,
       email: this.email,
       addressDetails: {
@@ -51,19 +53,19 @@ export class OrganizationProfileComponent implements OnInit {
   }
 
   getByID() {
-    this.http.get("http://localhost:3000/organization/get/" + this.orgID).subscribe((res) => {
+    this.http.get("http://localhost:3000/organization/get/" + this.mongoID).subscribe((res) => {
       console.log(res);
     })
   }
 
   delete() {
-    this.http.delete("http://localhost:3000/organization/delete/" + this.orgID).subscribe((res) => {
+    this.http.delete("http://localhost:3000/organization/delete/" + this.mongoID).subscribe((res) => {
       console.log(res);
     })
   }
 
   update() {
-    this.http.put("http://localhost:3000/organization/update/" + this.orgID, this.organizationObjectGenerator()).subscribe((res) => {
+    this.http.put("http://localhost:3000/organization/update/" + this.organizationID, this.organizationObjectGenerator()).subscribe((res) => {
       console.log(res);
     })
   }
