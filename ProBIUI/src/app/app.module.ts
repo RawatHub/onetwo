@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-
+import {OrganizationService} from './organization-profile/organization-profile.service'
+import {ConfigService} from './shared/config.service';
+import {AuthService} from './shared/auth.service';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -42,8 +44,9 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [
     AppComponent,
     AdminLayoutComponent
+    
   ],
-  providers: [],
+  providers: [OrganizationService,ConfigService,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

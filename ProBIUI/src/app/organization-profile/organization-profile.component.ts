@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { IOrganization } from '../models/organization.interface';
+import {OrganizationService} from '../organization-profile/organization-profile.service'
 
 @Component({
   selector: 'app-organization-profile',
@@ -8,64 +10,52 @@ import { HttpClient } from '@angular/common/http';
 })
 export class OrganizationProfileComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private _organizationService: OrganizationService) { }
 
   ngOnInit() {
   }
-
-  mongoID: String = "";
-  organizationID: String = "";
-  organization: String = "";
-  email: String = "";
-  address: String = "";
-  city: String = "";
-  country: String = "";
-  postalCode: Number;
-  contact: Number;
-
-  organizationObjectGenerator() {
-    var org = {
-      organizationID: this.organizationID,
-      name: this.organization,
-      email: this.email,
-      addressDetails: {
-        address: this.address,
-        city: this.city,
-        country: this.country,
-        postalCode: this.postalCode
-      },
-      contact: this.contact
-    }
-
-    return org;
-  }
-
+  organization : IOrganization = {
+    id:"",
+    email:"",
+    name:"",
+    organizationID:"",
+    contactNumber:0,
+    address:"",
+    city:"",
+    country:"",
+    postalCode:0
+  };
   add() {
-    this.http.post("http://localhost:3000/organization/add", this.organizationObjectGenerator()).subscribe((res) => {
-      console.log("received", res);
-    })
+this._organizationService.add(this.organization)
+.subscribe(function(response){
+  console.log(response);
+},
+function(error){
+  console.log(error);
+
+});
   }
 
   getAll() {
     this.http.get("http://localhost:3000/organization/get").subscribe((res) => {
       console.log(res);
-    })
+    });
   }
 
   getByID() {
-    this.http.get("http://localhost:3000/organization/get/" + this.mongoID).subscribe((res) => {
+    this.http.get("http://localhost:3000/organization/get/" + this.organization.id).subscribe((res) => {
       console.log(res);
     })
   }
 
   delete() {
-    this.http.delete("http://localhost:3000/organization/delete/" + this.mongoID).subscribe((res) => {
+    this.http.delete("http://localhost:3000/organization/delete/" + this.organization.id).subscribe((res) => {
       console.log(res);
     })
   }
 
   update() {
-    this.http.put("http://localhost:3000/organization/update/" + this.organizationID, this.organizationObjectGenerator()).subscribe((res) => {
+    this.http.put("http://localhost:3000/organization/update/" + this.organization.organizationID, this.organization).subscribe((res) => {
       console.log(res);
     })
   }
