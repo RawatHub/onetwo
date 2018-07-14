@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import {OrganizationService} from './organization-profile/organization-profile.service'
+import {OrganizationService} from './organization-profile/organization-profile.service';
+import { CompanyService } from './company-profile/company-profile.service';
 import {ConfigService} from './shared/config.service';
 import {AuthService} from './shared/auth.service';
+import { HttpRequestsService } from './http-requests-service/http-requests.service';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -46,7 +48,7 @@ import { HttpClientModule } from '@angular/common/http';
     AdminLayoutComponent
     
   ],
-  providers: [OrganizationService,ConfigService,AuthService],
+  providers: [OrganizationService,CompanyService,ConfigService,AuthService,HttpRequestsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
