@@ -12,8 +12,17 @@ import { HttpRequestsService } from '../http-requests-service/http-requests.serv
 export class CompanyProfileComponent implements OnInit {
 
   constructor(private http: HttpClient, private _companyService: CompanyService, private http_req: HttpRequestsService) { }
-
+arr;
   ngOnInit() {
+    this.http.get("http://localhost:3000/organization/getOrgIds").subscribe((res) => {
+      var i = 0;
+      var array = [];
+      while(res[i] != null){
+        array.push(res[i].organizationID);
+        i++;
+      }
+      this.arr = array;
+    })
   }
 
   company: ICompany = {
