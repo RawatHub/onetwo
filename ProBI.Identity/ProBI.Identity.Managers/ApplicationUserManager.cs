@@ -38,22 +38,13 @@ namespace ProBI.Identity.Managers
                 };
             }
 
-            //appUserManager.UserValidator = new UserValidator<ApplicationUser>(appUserManager)
-            //{
-            //    AllowOnlyAlphanumericUserNames = true,
-            //    RequireUniqueEmail = true
-            //};
+            appUserManager.UserValidator = new UserValidator<ApplicationUser>(appUserManager)
+            {
+                AllowOnlyAlphanumericUserNames = true,
+                RequireUniqueEmail = true
+            };
 
-            //appUserManager.PasswordValidator = new PasswordValidator
-            //{
-            //    RequiredLength = 6,
-            //    RequireNonLetterOrDigit = true,
-            //    RequireDigit = false,
-            //    RequireLowercase = true,
-            //    RequireUppercase = true,
-            //};
-
-            appUserManager.PasswordValidator = new MyCustomPasswordValidator
+            appUserManager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
                 RequireNonLetterOrDigit = true,
@@ -62,11 +53,20 @@ namespace ProBI.Identity.Managers
                 RequireUppercase = true,
             };
 
-            appUserManager.UserValidator = new MyCustomUserValidator(appUserManager)
-            {
-                AllowOnlyAlphanumericUserNames = true,
-                RequireUniqueEmail = true
-            };
+            //appUserManager.PasswordValidator = new MyCustomPasswordValidator
+            //{
+            //    RequiredLength = 6,
+            //    RequireNonLetterOrDigit = true,
+            //    RequireDigit = false,
+            //    RequireLowercase = true,
+            //    RequireUppercase = true,
+            //};
+
+            //appUserManager.UserValidator = new MyCustomUserValidator(appUserManager)
+            //{
+            //    AllowOnlyAlphanumericUserNames = true,
+            //    RequireUniqueEmail = true
+            //};
 
             return appUserManager;
         }

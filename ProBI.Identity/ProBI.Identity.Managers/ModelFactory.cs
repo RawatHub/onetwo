@@ -1,4 +1,5 @@
-﻿using ProBI.Identity.Models;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using ProBI.Identity.Models;
 using ProBI.Identity.Models.ApplicationModels;
 using ProBI.Identity.Models.ReturnModels;
 using System;
@@ -38,6 +39,16 @@ namespace ProBI.Identity.Managers
                 JoinDate = appUser.JoinDate,
                 Roles = _AppUserManager.GetRolesAsync(appUser.Id).Result,
                 Claims = _AppUserManager.GetClaimsAsync(appUser.Id).Result
+            };
+        }
+
+        public RoleReturnModel Create(IdentityRole appRole)
+        {
+            return new RoleReturnModel
+            {
+                Url = _UrlHelper.Link("GetRoleById", new { id = appRole.Id }),
+                Id = appRole.Id,
+                Name = appRole.Name
             };
         }
     }
