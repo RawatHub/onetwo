@@ -105,6 +105,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationRoleManager.cs" />
     <Compile Include="ApplicationUserManager.cs" />
     <Compile Include="ModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
