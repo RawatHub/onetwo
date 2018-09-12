@@ -8,7 +8,23 @@ namespace IdentityServerTestApp.Controllers
 {
     public class HomeController : Controller
     {
-        [Authorize]
+        //[Authorize]
+        //public ActionResult Index()
+        //{
+        //    ViewBag.Title = "Home Page";
+
+        //    return View();
+        //}
+
+        //[Authorize(Roles = "IncidentResolvers")]
+        //public ActionResult Index()
+        //{
+        //    ViewBag.Title = "Home Page";
+
+        //    return View();
+        //}
+
+        [ClaimsAuthorization(ClaimType = "FTE", ClaimValue = "0")]
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";

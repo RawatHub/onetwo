@@ -31,7 +31,6 @@ namespace IdentityServerTestApp.App_Start
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 
             app.UseWebApi(httpConfig);
-
         }
 
         private static void ConfigureOAuthTokenGeneration(IAppBuilder app)
